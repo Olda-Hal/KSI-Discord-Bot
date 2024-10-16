@@ -1,0 +1,2 @@
+SQL_ALCHEMY_URI = "mysql://username:password@server/db_name?charset=utf8mb4" # ideally the backend database connection string
+TOKEN = "Discord-Bot-Token"
