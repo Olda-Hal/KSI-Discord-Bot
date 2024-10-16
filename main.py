@@ -68,6 +68,10 @@ async def on_message(message):
     if 'karlik' in message.content.lower():
         # React with a custom emoji
         await message.add_reaction('<:Angrik:1287496326149439588>')
+    
+    # zisk bot easteregg reference
+    if 'kakakah' is message.content:
+        await message.reply('Nejsem ZISK bot abych ti na to reagoval...')
 
 @client.event
 async def on_member_join(member):
@@ -81,7 +85,10 @@ async def on_member_join(member):
         await member.kick(reason="Neautorizovaný uživatel")
     else:
         # Set the user's nickname to the format "FirstName 'NickName' LastName"
-        await member.edit(nick=f"{user_data.first_name} \"{user_data.nick_name}\" {user_data.last_name}")
+        if user_data.nick_name is None:
+            await member.edit(nick=f"{user_data.first_name} {user_data.last_name}")
+        else:
+            await member.edit(nick=f"{user_data.first_name} \"{user_data.nick_name}\" {user_data.last_name}")
         
         # Assign a role to the user based on their role in the database
         role_name = "Org" if user_data.role in ('org', 'admin') else "Riešitel"
