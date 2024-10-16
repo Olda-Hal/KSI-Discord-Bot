@@ -61,7 +61,7 @@ async def on_message(message):
         return
     
     # rolls a chance 1 in 100 to change the bot's activity
-    if random.randint(1, 100) == 1:
+    if random.randint(1, 100) == 42:
         await set_activity()
 
     # Check if the message contains a specific keyword
@@ -110,6 +110,9 @@ def query_db(query, params):
     try:
         # Execute the query with parameters
         result = session.execute(sqlalchemy.text(query), params).fetchone()
+    except:
+        # Rollback the session in case of an error
+        session.rollback()
     finally:
         # Commit the session and close it
         session.commit()
