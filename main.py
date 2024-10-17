@@ -39,6 +39,8 @@ ACTIVITY_MESSAGES = {
 # Create a Discord client with all intents enabled
 intents = discord.Intents.default()
 intents.members = True  # Enable member intents explicitly
+intents.presences = True  # Enable presence intents explicitly
+intents.message_content = True  # Enable message content intents explicitly
 client = discord.Client(intents=intents)
 
 @client.event
