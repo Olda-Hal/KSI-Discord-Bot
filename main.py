@@ -74,7 +74,7 @@ async def on_message(message):
         await message.add_reaction('<:Angrik:1287496326149439588>')
     
     # zisk bot easteregg reference
-    if 'kakakah' is message.content:
+    if 'kakakah' == message.content:
         await message.reply('Nejsem ZISK bot abych ti na to reagoval...')
 
 @client.event
@@ -90,9 +90,9 @@ async def on_member_join(member):
     else:
         # Set the user's nickname to the format "FirstName 'NickName' LastName"
         if user_data.nick_name is None:
-            await member.edit(nick=f"{user_data["first_name"]} {user_data["last_name"]}")
+            await member.edit(nick=f"{user_data['first_name']} {user_data['last_name']}")
         else:
-            await member.edit(nick=f"{user_data["first_name"]} \"{user_data["nick_name"]}\" {user_data["last_name"]}")
+            await member.edit(nick=f"{user_data['first_name']} \"{user_data['nick_name']}\" {user_data['last_name']}")
         
         # Assign a role to the user based on their role in the database
         role_name = "Riešitel"
