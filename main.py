@@ -7,7 +7,7 @@ import requests
 
 # Message displayed to unauthorized users
 UNAUTHORIZED_USER_MESSAGE = "Nemáš propojený účet s webem, takže jsi byl vyhozen. Propoj si účet na https://www.ksi.fi.muni.cz/"
-KSI_WEB_URL = "https://www.ksi.fi.muni.cz/"
+KSI_WEB_URL = "https://www.ksi.fi.muni.cz"
 
 # chance of that message, message
 # percentage will be calculated as 1 / sum of all numbers
