@@ -3,9 +3,11 @@ import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 import config
 import random
+import requests
 
 # Message displayed to unauthorized users
 UNAUTHORIZED_USER_MESSAGE = "Nemáš propojený účet s webem, takže jsi byl vyhozen. Propoj si účet na https://www.ksi.fi.muni.cz/"
+KSI_WEB_URL = "https://www.ksi.fi.muni.cz"
 
 # chance of that message, message
 # percentage will be calculated as 1 / sum of all numbers
@@ -39,6 +41,8 @@ ACTIVITY_MESSAGES = {
 # Create a Discord client with all intents enabled
 intents = discord.Intents.default()
 intents.members = True  # Enable member intents explicitly
+intents.presences = True  # Enable presence intents explicitly
+intents.message_content = True  # Enable message content intents explicitly
 client = discord.Client(intents=intents)
 
 @client.event
@@ -86,21 +90,26 @@ async def on_member_join(member):
     else:
         # Set the user's nickname to the format "FirstName 'NickName' LastName"
         if user_data.nick_name is None:
-            await member.edit(nick=f"{user_data.first_name} {user_data.last_name}")
+            await member.edit(nick=f"{user_data["first_name"]} {user_data["last_name"]}")
         else:
-            await member.edit(nick=f"{user_data.first_name} \"{user_data.nick_name}\" {user_data.last_name}")
+            await member.edit(nick=f"{user_data["first_name"]} \"{user_data["nick_name"]}\" {user_data["last_name"]}")
         
         # Assign a role to the user based on their role in the database
-        role_name = "Org" if user_data.role in ('org', 'admin') else "Riešitel"
+        role_name = "Riešitel"
         role = discord.utils.get(member.guild.roles, name=role_name)
         if role:
             await member.add_roles(role)
 
 def validate_user(username):
     """Validate the user by checking if they are in the database."""
-    # Query the database to check if the user's Discord username is linked
-    result = query_db(f"SELECT * FROM users WHERE discord = :username", {"username": username})
-    return result
+    # Send a POST request to the external API to validate the user
+    response = requests.post(KSI_WEB_URL + "/users/discord/validate", json={"Secret": config.KSI_BACKEND_sECRET, "Username": username})
+    
+    # Check if the request was successful
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
 
 def query_db(query, params):
     """Execute a SQL query and return the first result."""
@@ -126,6 +135,18 @@ def query_db(query, params):
         session.close()
     
     return result
+
+
+REACTIONS1984 = {"🧢", "🇨🇿", "<:nerdik:1293643432442462359>"}
+
+
+@client.event
+async def on_reaction_add(reaction, user):
+    print(str(reaction.emoji))
+    print(str(reaction.emoji) in REACTIONS1984)
+    if reaction.message.author.name == "vzduch2" and str(reaction.emoji) in REACTIONS1984:
+        await reaction.message.remove_reaction(reaction.emoji, user)
+
 
 def main():
     """Main function to run the bot."""
