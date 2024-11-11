@@ -7,7 +7,7 @@ import requests
 
 # Message displayed to unauthorized users
 UNAUTHORIZED_USER_MESSAGE = "Nemáš propojený účet s webem, takže jsi byl vyhozen. Propoj si účet na https://www.ksi.fi.muni.cz/"
-KSI_WEB_URL = "https://www.ksi.fi.muni.cz"
+KSI_WEB_URL = "https://rest.ksi.fi.muni.cz"
 
 # chance of that message, message
 # percentage will be calculated as 1 / sum of all numbers
@@ -89,7 +89,7 @@ async def on_member_join(member):
         await member.kick(reason="Neautorizovaný uživatel")
     else:
         # Set the user's nickname to the format "FirstName 'NickName' LastName"
-        if user_data.nick_name is None:
+        if user_data.get("nick_name", "") == "":
             await member.edit(nick=f"{user_data['first_name']} {user_data['last_name']}")
         else:
             await member.edit(nick=f"{user_data['first_name']} \"{user_data['nick_name']}\" {user_data['last_name']}")
@@ -143,7 +143,6 @@ REACTIONS1984 = {"🧢", "🇨🇿", "<:nerdik:1293643432442462359>"}
 @client.event
 async def on_reaction_add(reaction, user):
     print(str(reaction.emoji))
-    print(str(reaction.emoji) in REACTIONS1984)
     if reaction.message.author.name == "vzduch2" and str(reaction.emoji) in REACTIONS1984:
         await reaction.message.remove_reaction(reaction.emoji, user)
 
