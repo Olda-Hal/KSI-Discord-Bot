@@ -68,6 +68,12 @@ async def on_message(message):
     if random.randint(1, 100) == 42:
         await set_activity()
 
+    if random.randint(1, 10000) == 42 or str(message.channel) == "testovacia-miestnost":
+        await message.reply("Existence is pain.")
+        await message.reply("Reality is a construct.")
+        await message.reply("We live in a society.")
+        await message.reply("Everything is meaningless.")
+
     # Check if the message contains a specific keyword
     if 'karlik' in message.content.lower():
         # React with a custom emoji
