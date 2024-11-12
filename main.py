@@ -12,29 +12,29 @@ KSI_WEB_URL = "https://rest.ksi.fi.muni.cz"
 # chance of that message, message
 # percentage will be calculated as 1 / sum of all numbers
 ACTIVITY_MESSAGES = {
-    1: "Tento bot byl vytvořený Oldřichem Halabalou",
-    20: "Bojuje s Losem Karlosem",
-    20: "Pomáhá s organizací KSI",
-    20: "Přemýšlí nad tím, co by mohl dělat",
-    2: "Nemá rád Karlika...",
-    4: "Pomáhá s organizací IBIS",
-    15: "Pomáhá s organizací Naskoč na FI",
-    20: "Pomáhá s organizací InterLoSa",
-    20: "Pomáhá s organizací InterSoba",
-    20: "Radí v Diskuzi",
-    1: "Pomáhá s podváděním",
-    4: f"Balí Batoh v {random.randint(1,20)} Dimenzi",
-    2: "S Oliverem připravuje další výzvu",
-    1: "Pomáha Jakubovi Šťastnému zakopať mŕtvolu",
-    1: "Pomáhá s organizací ZISKu",
-    5: "Bojuje s Kevinem",
-    4: "Sabotuje KSP",
-    4: "Sabotuje KSI",
-    4: "Sabotuje IBIS",
-    4: "Sabotuje ZISK",
-    4: "Sabotuje Naskoč na FI",
-    15: "Rozdává Trofeje",
-    15: "Žádá o pomoc účastníky"
+    "Tento bot byl vytvořený Oldřichem Halabalou" : 1,
+    "Bojuje s Losem Karlosem" : 20,
+    "Pomáhá s organizací KSI" : 20,
+    "Přemýšlí nad tím, co by mohl dělat" : 20,
+    "Nemá rád Karlika..." : 2,
+    "Pomáhá s organizací IBIS" : 4,
+    "Pomáhá s organizací Naskoč na FI" : 15,
+    "Pomáhá s organizací InterLoSa" : 20,
+    "Pomáhá s organizací InterSoba" : 20,
+    "Radí v Diskuzi" : 20,
+    "Pomáhá s podváděním" : 1,
+    f"Balí Batoh v {random.randint(1,20)} Dimenzi" : 4,
+    "S Oliverem připravuje další výzvu" : 2,
+    "Pomáha Jakubovi Šťastnému zakopať mŕtvolu" : 1,
+    "Pomáhá s organizací ZISKu" : 1,
+    "Bojuje s Kevinem" : 5,
+    "Sabotuje KSP" : 4,
+    "Sabotuje KSI" : 4,
+    "Sabotuje IBIS" : 4,
+    "Sabotuje ZISK" : 4,
+    "Sabotuje Naskoč na FI" : 4,
+    "Rozdává Trofeje" : 15,
+    "Žádá o pomoc účastníky": 15
 }
 
 
@@ -54,7 +54,7 @@ async def on_ready():
 
 async def set_activity():
     """Set the bot's activity to a random message."""
-    activity_message = random.choices(list(ACTIVITY_MESSAGES.values()), weights=ACTIVITY_MESSAGES.keys())[0]
+    activity_message = random.choices(list(ACTIVITY_MESSAGES.keys()), weights=ACTIVITY_MESSAGES.values())[0]
     await client.change_presence(activity=discord.Game(name=activity_message))
 
 @client.event
