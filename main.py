@@ -55,7 +55,7 @@ async def on_ready():
 async def set_activity():
     """Set the bot's activity to a random message."""
     activity_message = random.choices(list(ACTIVITY_MESSAGES.keys()), weights=ACTIVITY_MESSAGES.values())[0]
-    await client.change_presence(activity=discord.Game(name=activity_message))
+    await client.change_presence(activity=discord.CustomActivity(name=activity_message))
 
 @client.event
 async def on_message(message):
