@@ -78,6 +78,9 @@ async def on_message(message):
     if 'karlik' in message.content.lower():
         # React with a custom emoji
         await message.add_reaction('<:Angrik:1287496326149439588>')
+
+    if "<@&1308001259302682656>" in message.content:
+        await message.reply('Memoizace when?')
     
     # zisk bot easteregg reference
     if 'kakakah' == message.content:
