@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 import config
 import random
 import requests
+from unidecode import unidecode
 
 # Message displayed to unauthorized users
 UNAUTHORIZED_USER_MESSAGE = "Nemáš propojený účet s webem, takže jsi byl vyhozen. Propoj si účet na https://www.ksi.fi.muni.cz/"
@@ -45,6 +46,8 @@ intents.presences = True  # Enable presence intents explicitly
 intents.message_content = True  # Enable message content intents explicitly
 client = discord.Client(intents=intents)
 
+PREHRY = {"prohral", "prehr", "pr3hral", "prhral"}
+
 @client.event
 async def on_ready():
     """Event handler for when the bot is ready and connected."""
@@ -60,9 +63,13 @@ async def set_activity():
 @client.event
 async def on_message(message):
     """Event handler for incoming messages."""
+    msg = unidecode(str(message.content)).lower()
     # Ignore messages from the bot itself
     if message.author == client.user:
         return
+    
+    if any([prehra in "".join(msg.split()).lower() for prehra in PREHRY]):
+        await message.delete()
     
     # rolls a chance 1 in 100 to change the bot's activity
     if random.randint(1, 100) == 42:
@@ -75,16 +82,23 @@ async def on_message(message):
         await message.reply("Everything is meaningless.")
 
     # Check if the message contains a specific keyword
-    if 'karlik' in message.content.lower():
+    if 'karlik' in msg:
         # React with a custom emoji
         await message.add_reaction('<:Angrik:1287496326149439588>')
 
-    if "<@&1308001259302682656>" in message.content:
+    if "<@&1308001259302682656>" in msg:
         await message.reply('Memoizace when?')
     
     # zisk bot easteregg reference
     if 'kakakah' == message.content:
         await message.reply('Nejsem ZISK bot abych ti na to reagoval...')
+
+@client.event
+async def on_message_edit(before, after):
+    msg = unidecode(str(after.content)).lower()
+    temp = "".join(msg.split()).lower()
+    if any([x in temp for x in PREHRY]):
+        await after.delete()
 
 @client.event
 async def on_member_join(member):
