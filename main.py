@@ -70,6 +70,7 @@ async def on_message(message):
     
     if any([prehra in "".join(msg.split()).lower() for prehra in PREHRY]):
         await message.delete()
+        return
     
     # rolls a chance 1 in 100 to change the bot's activity
     if random.randint(1, 100) == 42:
