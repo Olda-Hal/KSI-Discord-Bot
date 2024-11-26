@@ -5,6 +5,7 @@ import config
 import random
 import requests
 from unidecode import unidecode
+import datetime
 
 # Message displayed to unauthorized users
 UNAUTHORIZED_USER_MESSAGE = "Nemáš propojený účet s webem, takže jsi byl vyhozen. Propoj si účet na https://www.ksi.fi.muni.cz/"
@@ -93,6 +94,9 @@ async def on_message(message):
     # zisk bot easteregg reference
     if 'kakakah' == message.content:
         await message.reply('Nejsem ZISK bot abych ti na to reagoval...')
+
+    if "<:lambda:1310951997641592862> 3" in message.content or "<:lambda:1310951997641592862>3" in message.content:
+        await message.author.timeout(datetime.timedelta(seconds=30), reason="Nebude half-life 3.")
 
 @client.event
 async def on_message_edit(before, after):
